@@ -5,7 +5,7 @@ documentation: https://github.com/droididan/dart_extentions
 homepage: https://github.com/droididan/dart_extentions
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
+  sdk: '>=2.18.0 <3.0.0'
 
 dependencies:
   intl: ^0.18.1
