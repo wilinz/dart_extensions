@@ -11,7 +11,6 @@
  * limitations under the License.
  */
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 enum Gender { male, female }
@@ -142,17 +141,6 @@ extension StringExtensions on String? {
     }
 
     return (value == 'true' || value == 'false');
-  }
-
-  Size get getTextSize {
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: this),
-      maxLines: 1,
-    )..layout(
-        minWidth: 0,
-        maxWidth: double.infinity,
-      );
-    return textPainter.size;
   }
 
   // Will add new line if the sentence is bigger the 2 words.

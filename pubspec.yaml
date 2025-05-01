@@ -5,15 +5,19 @@ documentation: https://github.com/droididan/dart_extentions
 homepage: https://github.com/droididan/dart_extentions
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  intl: ^0.18.1
+  intl: ^0.20.2
   quiver: ^3.2.1
   http: ^1.1.0
 
-  flutter:
-    sdk: flutter
-
 dev_dependencies:
-  test: 1.17.1
+  test: ^1.25.15
+
+index_generator:
+  exclude:
+    - '**.g.dart'
+  # Define the paths of the folders in which to generate the index files
+  libraries:
+    - directory_path: lib

@@ -392,7 +392,7 @@ class _IndexedWhereIterable<E> extends Iterable<E> {
 }
 
 /// [Iterator] for [_IndexedWhereIterable]
-class _IndexedWhereIterator<E> extends Iterator<E> {
+class _IndexedWhereIterator<E> implements Iterator<E> {
   final Iterator<E> _iterator;
   final IndexedPredicate<E> _f;
   int _index = 0;
