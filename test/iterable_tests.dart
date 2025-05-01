@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import 'package:dart_extensions/src/iterable.dart';
-import 'package:dart_extensions/src/model/user.dart';
+import 'package:pure_dart_extensions/src/iterable.dart';
+import 'user.dart';
 import 'package:test/test.dart';
 
 main() {

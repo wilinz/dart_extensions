@@ -12,7 +12,7 @@
  */
 
 import 'package:test/test.dart';
-import 'package:dart_extensions/src/string_ext.dart';
+import 'package:pure_dart_extensions/src/string_ext.dart';
 
 main() {
   group('strings', () {

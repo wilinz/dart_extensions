@@ -12,7 +12,6 @@ export 'src/http.dart';
 export 'src/int.dart';
 export 'src/iterable.dart';
 export 'src/map.dart';
-export 'src/model/user.dart';
 export 'src/ranges.dart';
 export 'src/search_algorithms.dart';
 export 'src/sort_algorithms.dart';

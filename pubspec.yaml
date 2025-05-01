@@ -1,8 +1,8 @@
-name: dart_extensions
-description: Set of method-extensions for dart that makes using framework in a much easier and clean way also adds additional functionality.
-version: 2.2.3
-documentation: https://github.com/droididan/dart_extentions
-homepage: https://github.com/droididan/dart_extentions
+name: pure_dart_extensions
+description: Set of method-extensions for pure dart that makes using framework in a much easier and clean way also adds additional functionality.
+version: 3.0.0
+documentation: https://github.com/wilinz/pure_dart_extentions
+homepage: https://github.com/wilinz/pure_dart_extentions
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

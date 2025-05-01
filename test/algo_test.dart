@@ -12,7 +12,7 @@
  */
 
 import 'package:test/test.dart';
-import 'package:dart_extensions/src/sort_algorithms.dart';
+import 'package:pure_dart_extensions/src/sort_algorithms.dart';
 main() {
   group('algo tests', () {
 
