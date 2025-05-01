@@ -41,7 +41,7 @@ main() {
 
   test("first or null", () {
     final list = [1, 45, 6, 9];
-    expect(null, list.firstWhere((element) => element == 7));
+    expect(null, list.firstOrNullWhere((element) => element == 7));
   });
 
   test('filter', () {
@@ -65,7 +65,7 @@ main() {
   test('takeOnly', () {
     expect([1, 2, 3, 4].takeOnly(1), [1]);
     expect([1, 2, 3, 4].takeOnly(2), [1, 2]);
-    expect([1, 2, 3, 4].takeOnly(10), []);
+    expect([1, 2, 3, 4].takeOnly(10), [1, 2, 3, 4]);
   });
 
   test('drop', () {
@@ -204,5 +204,83 @@ main() {
   test('intersect', () {
     expect(Set.from([1, 2, 3, 4]).intersect(Set.from([3, 4, 5, 6])), [1, 2, 3, 4, 5, 6]);
     expect(Set.from([-1, -2, -3, 4]).intersect(Set.from([3, 4, 5, 6])), [-1, -2, -3, 4, 3, 5, 6]);
+  });
+
+  group('startsWith()', () {
+    test('Returns true for matching prefix with default comparison', () {
+      expect([1, 2, 3].startsWith([1, 2]), isTrue);
+    });
+
+    test('Returns false for non-matching prefix', () {
+      expect([1, 2, 3].startsWith([2, 3]), isFalse);
+    });
+
+    test('Returns true when prefix is empty', () {
+      expect([1, 2].startsWith([]), isTrue);
+      expect([].startsWith([]), isTrue);
+    });
+
+    test('Returns false when iterable is empty but prefix is not', () {
+      expect([].startsWith([1]), isFalse);
+    });
+
+    test('Works with custom equality function', () {
+      final users = [
+        User(1, 'Alice'),
+        User(1, 'Bob'),
+      ];
+      expect(
+        users.startsWith(
+          [User(1, 'DifferentName')],
+          equals: (a, b) => a.age == b.age, // Compare only age
+        ),
+        isTrue,
+      );
+    });
+
+    test('Returns false when prefix is longer than iterable', () {
+      expect([1].startsWith([1, 2]), isFalse);
+    });
+  });
+
+  group('endsWith()', () {
+    test('Returns true for matching suffix with default comparison', () {
+      expect([1, 2, 3].endsWith([2, 3]), isTrue);
+    });
+
+    test('Returns false for non-matching suffix', () {
+      expect([1, 2, 3].endsWith([1, 2]), isFalse);
+    });
+
+    test('Returns true when suffix is empty', () {
+      expect([1, 2].endsWith([]), isTrue);
+      expect([].endsWith([]), isTrue);
+    });
+
+    test('Returns false when iterable is empty but suffix is not', () {
+      expect([].endsWith([1]), isFalse);
+    });
+
+    test('Works with case-insensitive string comparison', () {
+      expect(
+        ['a', 'B', 'C'].endsWith(
+          ['b', 'c'],
+          equals: (a, b) => a.toLowerCase() == b.toLowerCase(),
+        ),
+        isTrue,
+      );
+    });
+
+    test('Returns false when suffix is longer than iterable', () {
+      expect([1].endsWith([1, 2]), isFalse);
+    });
+
+    test('Works with custom objects when equality is defined', () {
+      final users = [
+        User(1, 'Alice'),
+        User(2, 'Bob'),
+      ];
+      expect(users.endsWith([User(2, 'Bob')]), isTrue);
+    });
   });
 }

@@ -50,15 +50,20 @@ extension CollectionsNullableExtensions<T> on Iterable<T>? {
 
   /// Zip is used to combine multiple iterables into a single list that contains
   /// the combination of them two.
-  zip<T>(Iterable<T> iterable) sync* {
-    if (iterable.isEmptyOrNull) return;
-    final iterables = List<Iterable>.empty()..add(this.orEmpty())..add(iterable);
+  Iterable<List<T>> zip(Iterable<T>? other) sync* {
+    // Handle null cases
+    if (this == null || other == null) return;
+    if (this!.isEmpty || other.isEmpty) return;
 
-    final iterators = iterables.map((e) => e.iterator).toList(growable: false);
-    while (iterators.every((e) => e.moveNext())) {
-      yield iterators.map((e) => e.current).toList(growable: false);
+    final thisIterator = this!.iterator;
+    final otherIterator = other.iterator;
+
+    // Yield pairs until either iterator is exhausted
+    while (thisIterator.moveNext() && otherIterator.moveNext()) {
+      yield [thisIterator.current, otherIterator.current];
     }
   }
+
 }
 
 extension CollectionsExtensions<T> on Iterable<T> {
@@ -123,38 +128,16 @@ extension CollectionsExtensions<T> on Iterable<T> {
 
   /// Returns a list containing first [n] elements.
   List<T> takeOnly(int n) {
-    if (n == 0) return [];
-
-    var list = List<T>.empty();
-    var thisList = this.toList();
-    if (this is Iterable) {
-      final resultSize = this.length - n;
-      if (resultSize <= 0) return [];
-      if (resultSize == 1) return [this.last];
-
-      List.generate(n, (index) {
-        list.add(thisList[index]);
-      });
-    }
-    return list;
+    if (n <= 0) return [];
+    if (n >= length) return toList();
+    return take(n).toList();
   }
 
   /// Returns a list containing all elements except first [n] elements.
   List<T> drop(int n) {
-    if (n == 0) return [];
-
-    var list = List<T>.empty();
-    var originalList = this.toList();
-    if (this is Iterable) {
-      final resultSize = this.length - n;
-      if (resultSize <= 0) return [];
-      if (resultSize == 1) return [this.last];
-
-      originalList.removeRange(0, n);
-
-      originalList.forEach((element) => list.add(element));
-    }
-    return list;
+    if (n <= 0) return toList();
+    if (n >= length) return [];
+    return skip(n).toList();
   }
 
   // Retuns map operation as a List
@@ -411,4 +394,49 @@ class _IndexedWhereIterator<E> implements Iterator<E> {
 
   @override
   E get current => _iterator.current;
+}
+
+extension CollectionStartsWithEndsWith<T> on Iterable<T> {
+
+  bool startsWith(
+      Iterable<T> prefix, {
+        bool Function(T a, T b)? equals,
+      }) {
+    equals ??= (a, b) => a == b; // 默认使用 == 比较
+    if (prefix.isEmpty) return true;
+    if (isEmpty) return false;
+
+    final thisIterator = iterator;
+    final prefixIterator = prefix.iterator;
+
+    while (prefixIterator.moveNext()) {
+      if (!thisIterator.moveNext()) return false;
+      if (!equals(thisIterator.current, prefixIterator.current)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool endsWith(
+      Iterable<T> suffix, {
+        bool Function(T a, T b)? equals,
+      }) {
+    equals ??= (a, b) => a == b; // 默认使用 == 比较
+    if (suffix.isEmpty) return true;
+    if (isEmpty) return false;
+
+    final suffixList = suffix.toList();
+    final thisList = toList();
+
+    if (suffixList.length > thisList.length) return false;
+
+    final offset = thisList.length - suffixList.length;
+    for (var i = 0; i < suffixList.length; i++) {
+      if (!equals(thisList[offset + i], suffixList[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
